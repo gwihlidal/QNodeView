@@ -51,8 +51,6 @@ ExampleMainWindow::ExampleMainWindow(QWidget* parent)
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 
     m_view = new QNodeViewCanvas(m_scene, dock);
-    m_view->setRenderHint(QPainter::Antialiasing, true);
-
     dock->setWidget(m_view);
     addDockWidget(Qt::LeftDockWidgetArea, dock);
 

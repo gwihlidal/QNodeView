@@ -20,6 +20,8 @@
 */
 
 #include <QEvent>
+#include <QMenu>
+#include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 
@@ -81,8 +83,24 @@ bool QNodeViewEditor::eventFilter(QObject* object, QEvent* event)
                     if (!item)
                         break;
 
-                    if (item->type() == QNodeViewType_Connection || item->type() == QNodeViewType_Block)
-                        delete item;
+                    const QPoint menuPosition = mouseEvent->screenPos();
+
+                    if (item->type() == QNodeViewType_Connection)
+                    {
+                        showConnectionMenu(menuPosition, static_cast<QNodeViewConnection*>(item));
+                    }
+                    else if (item->type() == QNodeViewType_Block)
+                    {
+                        showBlockMenu(menuPosition, static_cast<QNodeViewBlock*>(item));
+                    }
+                    else if (item->type() == QNodeViewType_ConnectionSplit)
+                    {
+                        QNodeViewConnectionSplit* split = static_cast<QNodeViewConnectionSplit*>(item);
+                        QNodeViewConnection* connection = split->connection();
+                        connection->splits().removeAll(split);
+                        delete split;
+                        connection->updatePath();
+                    }
 
                     break;
                 }
@@ -198,4 +216,39 @@ QGraphicsItem* QNodeViewEditor::itemAt(const QPointF& point)
 
     // No user scene items found at point
     return NULL;
+}
+
+void QNodeViewEditor::showBlockMenu(const QPoint& point, QNodeViewBlock* block)
+{
+    QMenu menu;
+    QAction* deleteAction = menu.addAction("Delete");
+    QAction* selection = menu.exec(point);
+    if (selection == deleteAction)
+    {
+        delete block;
+    }
+}
+
+void QNodeViewEditor::showConnectionMenu(const QPoint& point, QNodeViewConnection* connection)
+{
+    QMenu menu;
+    QAction* splitAction = menu.addAction("Split");
+    menu.addSeparator();
+    QAction* deleteAction = menu.addAction("Delete");
+    QAction* selection = menu.exec(point);
+    if (selection == deleteAction)
+    {
+        delete connection;
+    }
+    else if (selection == splitAction)
+    {
+        QNodeViewConnectionSplit* split = new QNodeViewConnectionSplit(connection);
+        m_scene->addItem(split);
+        // GW-TODO: Temp: Need to calculate multiple points
+        QPointF splitPosition = (connection->startPosition() + connection->endPosition()) / 2;
+        split->setSplitPosition(splitPosition);
+        split->updatePath();
+        connection->splits().append(split);
+        connection->updatePath();
+    }
 }

@@ -25,6 +25,39 @@
 #include <QNodeViewCommon.h>
 
 class QNodeViewPort;
+class QNodeViewConnection;
+
+class QNodeViewConnectionSplit : public QGraphicsPathItem
+{
+public:
+    QNodeViewConnectionSplit(QNodeViewConnection* connection);
+    virtual ~QNodeViewConnectionSplit();
+
+    void setSplitPosition(const QPointF& position);
+
+    void updatePath();
+
+    QPointF splitPosition() const { return m_splitPosition; }
+    QNodeViewConnection* connection() const { return m_connection; }
+
+public:
+    void save(QDataStream& stream);
+    void load(QDataStream& stream, const QMap<quint64, QNodeViewPort*>& portMap);
+
+public:
+    // QGraphicsItem
+    int type() const { return QNodeViewType_ConnectionSplit; }
+
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
+
+protected:
+    QVariant itemChange(GraphicsItemChange change, const QVariant& value);
+
+private:
+    QPointF m_splitPosition;
+    QNodeViewConnection* m_connection;
+    qint32 m_radius;
+};
 
 class QNodeViewConnection : public QGraphicsPathItem
 {
@@ -40,6 +73,12 @@ public:
 
     void updatePosition();
 	void updatePath();
+    void updateSplits();
+
+    QList<QNodeViewConnectionSplit*>& splits() { return m_splits; }
+
+    QPointF startPosition() const { return m_startPosition; }
+    QPointF endPosition() const { return m_endPosition; }
 
     QNodeViewPort* startPort() const;
     QNodeViewPort* endPort() const;
@@ -55,6 +94,8 @@ public:
 private:
     QPointF m_startPosition;
     QPointF m_endPosition;
+
+    QList<QNodeViewConnectionSplit*> m_splits;
 
     QNodeViewPort* m_startPort;
     QNodeViewPort* m_endPort;

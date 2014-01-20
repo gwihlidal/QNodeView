@@ -24,6 +24,7 @@
 QNodeViewCanvas::QNodeViewCanvas(QGraphicsScene* scene, QWidget* parent)
 : QGraphicsView(scene, parent)
 {
+    setRenderHint(QPainter::Antialiasing, true);
 }
 
 QNodeViewCanvas::~QNodeViewCanvas()

@@ -149,6 +149,7 @@ QVariant QNodeViewPort::itemChange(GraphicsItemChange change, const QVariant &va
 		{
             connection->updatePosition();
             connection->updatePath();
+            connection->updateSplits();
 		}
 	}
 

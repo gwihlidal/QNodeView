@@ -23,9 +23,10 @@
 
 enum QNodeViewType
 {
-    QNodeViewType_Port       = QGraphicsItem::UserType + 1,
-    QNodeViewType_Connection = QGraphicsItem::UserType + 2,
-    QNodeViewType_Block      = QGraphicsItem::UserType + 3
+    QNodeViewType_Port              = QGraphicsItem::UserType + 1,
+    QNodeViewType_Connection        = QGraphicsItem::UserType + 2,
+    QNodeViewType_ConnectionSplit   = QGraphicsItem::UserType + 3,
+    QNodeViewType_Block             = QGraphicsItem::UserType + 4
 };
 
 enum QNodeViewPortLabel

@@ -45,6 +45,9 @@ public:
 private:
     QGraphicsItem* itemAt(const QPointF& point);
 
+    void showBlockMenu(const QPoint& point, QNodeViewBlock* block);
+    void showConnectionMenu(const QPoint& point, QNodeViewConnection* connection);
+
 private:
     QGraphicsScene* m_scene;
     QNodeViewConnection* m_connection;
