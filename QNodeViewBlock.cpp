@@ -44,11 +44,21 @@ QNodeViewBlock::QNodeViewBlock(QGraphicsItem* parent)
     setPen(QPen(QColor(30, 30, 30))); // GW-TODO: Expose to QStyle
     setBrush(QColor(50, 50, 50)); // GW-TODO: Expose to QStyle
 
+    // GW-TODO:
+    //     This causes a crash in the BSP intersect code deep within Qt5.
+    //     Need to investigate further, but many issues are open it appears...
+    // https://codereview.qt-project.org/#change,40931
+    // https://bugreports.qt-project.org/browse/QTBUG-23205
+    // https://bugreports.qt-project.org/browse/QTBUG-24792
+    // https://bugreports.qt-project.org/browse/QTBUG-18021
+    // https://bugreports.qt-project.org/browse/QTBUG-5090
+#if 0
     m_dropShadow.setBlurRadius(16);
     m_dropShadow.setXOffset(0.0);
     m_dropShadow.setYOffset(5.0);
 
     setGraphicsEffect(&m_dropShadow);
+#endif
 }
 
 QNodeViewBlock::~QNodeViewBlock()

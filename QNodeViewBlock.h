@@ -58,7 +58,7 @@ protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant& value);
 
 private:
-    QGraphicsDropShadowEffect m_dropShadow;
+    //QGraphicsDropShadowEffect m_dropShadow;
     qint32 m_width;
     qint32 m_height;
     qint32 m_horizontalMargin;
