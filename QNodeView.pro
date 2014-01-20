@@ -28,6 +28,7 @@ SOURCES +=  \
             QNodeViewPort.cpp \
             QNodeViewConnection.cpp \
             QNodeViewBlock.cpp \  
+            QNodeViewCanvas.cpp \
             Example.cpp
 
 HEADERS  += \
@@ -36,6 +37,7 @@ HEADERS  += \
             QNodeViewConnection.h \
             QNodeViewBlock.h \
             QNodeViewCommon.h \
+            QNodeViewCanvas.h \
             Example.h
 
 cache()

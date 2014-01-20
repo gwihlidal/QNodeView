@@ -26,6 +26,7 @@
 #include <QNodeViewBlock.h>
 #include <QNodeViewEditor.h>
 #include <QNodeViewPort.h>
+#include <QNodeViewCanvas.h>
 
 #include <Example.h>
 
@@ -49,8 +50,7 @@ ExampleMainWindow::ExampleMainWindow(QWidget* parent)
     QDockWidget* dock = new QDockWidget(tr("Nodes"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 
-    m_view = new QGraphicsView(dock); // GW-TODO: Subclasses to expose custom painting\events
-    m_view->setScene(m_scene);
+    m_view = new QNodeViewCanvas(m_scene, dock);
     m_view->setRenderHint(QPainter::Antialiasing, true);
     m_view->setBackgroundBrush(QBrush(QColor(50, 50, 50)));
 
