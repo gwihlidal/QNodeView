@@ -52,7 +52,6 @@ ExampleMainWindow::ExampleMainWindow(QWidget* parent)
 
     m_view = new QNodeViewCanvas(m_scene, dock);
     m_view->setRenderHint(QPainter::Antialiasing, true);
-    m_view->setBackgroundBrush(QBrush(QColor(50, 50, 50)));
 
     dock->setWidget(m_view);
     addDockWidget(Qt::LeftDockWidgetArea, dock);

@@ -30,4 +30,5 @@ public:
     virtual ~QNodeViewCanvas();
 
     void contextMenuEvent(QContextMenuEvent* event);
+    void drawBackground(QPainter* painter, const QRectF& rect);
 };
