@@ -30,6 +30,7 @@ QNodeViewConnection::QNodeViewConnection(QGraphicsItem* parent)
 , m_startPort(NULL)
 , m_endPort(NULL)
 {
+    setCacheMode(DeviceCoordinateCache);
     setPen(QPen(QColor(170, 170, 170), 2)); // GW-TODO: Expose to QStyle
 	setBrush(Qt::NoBrush);
 	setZValue(-1);

@@ -69,7 +69,7 @@ bool QNodeViewEditor::eventFilter(QObject* object, QEvent* event)
                     }
                     else if (item->type() == QNodeViewType_Block)
                     {
-                        // GW-TODO:
+                        // GW-TODO: Some form of property editor callback?
                     }
 
                     break;

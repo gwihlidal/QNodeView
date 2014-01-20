@@ -35,6 +35,8 @@ QNodeViewBlock::QNodeViewBlock(QGraphicsItem* parent)
 , m_horizontalMargin(20)
 , m_verticalMargin(5)
 {
+    setCacheMode(DeviceCoordinateCache);
+
     setFlag(QGraphicsItem::ItemIsMovable);
     setFlag(QGraphicsItem::ItemIsSelectable);
 

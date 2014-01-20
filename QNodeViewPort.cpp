@@ -32,9 +32,12 @@ QNodeViewPort::QNodeViewPort(QGraphicsItem* parent)
 , m_margin(2)
 , m_portFlags(0x0)
 {
+    setCacheMode(DeviceCoordinateCache);
+
     setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
 
     m_label = new QGraphicsTextItem(this);
+    m_label->setCacheMode(DeviceCoordinateCache);
 
     QPainterPath path;
     path.addEllipse(-m_radius, -m_radius, m_radius * 2, m_radius * 2);
