@@ -46,7 +46,7 @@ QNodeViewPort::QNodeViewPort(QGraphicsItem* parent)
 
 QNodeViewPort::~QNodeViewPort()
 {
-    Q_FOREACH (auto connection, m_connections)
+    Q_FOREACH (QNodeViewConnection* connection, m_connections)
         delete connection;
 }
 
@@ -103,7 +103,7 @@ void QNodeViewPort::setIndex(quint64 index)
 
 bool QNodeViewPort::isConnected(QNodeViewPort* other)
 {
-    Q_FOREACH (auto connection, m_connections)
+    Q_FOREACH (QNodeViewConnection* connection, m_connections)
     {
         if (connection->startPort() == other || connection->endPort() == other)
             return true;
@@ -142,7 +142,7 @@ QVariant QNodeViewPort::itemChange(GraphicsItemChange change, const QVariant &va
 {
 	if (change == ItemScenePositionHasChanged)
 	{
-        Q_FOREACH (auto connection, m_connections)
+        Q_FOREACH (QNodeViewConnection* connection, m_connections)
 		{
             connection->updatePosition();
             connection->updatePath();

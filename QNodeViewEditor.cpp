@@ -30,20 +30,20 @@
 
 QNodeViewEditor::QNodeViewEditor(QObject* parent)
 : QObject(parent)
-, m_connection(nullptr)
+, m_connection(NULL)
 {
 }
 
 void QNodeViewEditor::install(QGraphicsScene* scene)
 {
-    Q_ASSERT(scene != nullptr);
+    Q_ASSERT(scene);
     scene->installEventFilter(this);
     m_scene = scene;
 }
 
 bool QNodeViewEditor::eventFilter(QObject* object, QEvent* event)
 {
-    const auto mouseEvent = static_cast<QGraphicsSceneMouseEvent*>(event);
+    QGraphicsSceneMouseEvent* mouseEvent = static_cast<QGraphicsSceneMouseEvent*>(event);
 
     switch (static_cast<qint32>(event->type()))
 	{
@@ -53,13 +53,13 @@ bool QNodeViewEditor::eventFilter(QObject* object, QEvent* event)
             {
                 case Qt::LeftButton:
                 {
-                    auto item = itemAt(mouseEvent->scenePos());
-                    if (item == nullptr)
+                    QGraphicsItem* item = itemAt(mouseEvent->scenePos());
+                    if (!item)
                         break;
 
                     if (item->type() == QNodeViewType_Port)
                     {
-                        m_connection = new QNodeViewConnection(nullptr);
+                        m_connection = new QNodeViewConnection(NULL);
                         m_scene->addItem(m_connection);
                         m_connection->setStartPort(static_cast<QNodeViewPort*>(item));
                         m_connection->setStartPosition(item->scenePos());
@@ -77,8 +77,8 @@ bool QNodeViewEditor::eventFilter(QObject* object, QEvent* event)
 
                 case Qt::RightButton:
                 {
-                    auto item = itemAt(mouseEvent->scenePos());
-                    if (item == nullptr)
+                    QGraphicsItem* item = itemAt(mouseEvent->scenePos());
+                    if (!item)
                         break;
 
                     if (item->type() == QNodeViewType_Connection || item->type() == QNodeViewType_Block)
@@ -91,7 +91,7 @@ bool QNodeViewEditor::eventFilter(QObject* object, QEvent* event)
 
         case QEvent::GraphicsSceneMouseMove:
         {
-            if (m_connection != nullptr)
+            if (m_connection)
             {
                 m_connection->setEndPosition(mouseEvent->scenePos());
                 m_connection->updatePath();
@@ -103,13 +103,13 @@ bool QNodeViewEditor::eventFilter(QObject* object, QEvent* event)
 
         case QEvent::GraphicsSceneMouseRelease:
         {
-            if (m_connection != nullptr && mouseEvent->button() == Qt::LeftButton)
+            if (m_connection && mouseEvent->button() == Qt::LeftButton)
             {
-                auto item = itemAt(mouseEvent->scenePos());
-                if (item != nullptr && item->type() == QNodeViewType_Port)
+                QGraphicsItem* item = itemAt(mouseEvent->scenePos());
+                if (item && item->type() == QNodeViewType_Port)
                 {
-                    auto startPort = m_connection->startPort();
-                    auto endPort = static_cast<QNodeViewPort*>(item);
+                    QNodeViewPort* startPort = m_connection->startPort();
+                    QNodeViewPort* endPort = static_cast<QNodeViewPort*>(item);
 
                     if (startPort->block()    != endPort->block() &&
                         startPort->isOutput() != endPort->isOutput() &&
@@ -118,13 +118,13 @@ bool QNodeViewEditor::eventFilter(QObject* object, QEvent* event)
                         m_connection->setEndPosition(endPort->scenePos());
                         m_connection->setEndPort(endPort);
                         m_connection->updatePath();
-                        m_connection = nullptr;
+                        m_connection = NULL;
                         return true;
                     }
                 }
 
                 delete m_connection;
-                m_connection = nullptr;
+                m_connection = NULL;
                 return true;
             }
 
@@ -137,7 +137,7 @@ bool QNodeViewEditor::eventFilter(QObject* object, QEvent* event)
 
 void QNodeViewEditor::save(QDataStream& stream)
 {
-    Q_FOREACH (auto item, m_scene->items())
+    Q_FOREACH (QGraphicsItem* item, m_scene->items())
     {
         if (item->type() == QNodeViewType_Block)
 		{
@@ -146,7 +146,7 @@ void QNodeViewEditor::save(QDataStream& stream)
 		}
     }
 
-    Q_FOREACH (auto item, m_scene->items())
+    Q_FOREACH (QGraphicsItem* item, m_scene->items())
     {
         if (item->type() == QNodeViewType_Connection)
 		{
@@ -160,7 +160,7 @@ void QNodeViewEditor::load(QDataStream& stream)
 {
     QMap<quint64, QNodeViewPort*> portMap;
 
-    Q_ASSERT(m_scene != nullptr);
+    Q_ASSERT(m_scene);
     m_scene->clear();
 
     while (!stream.atEnd())
@@ -170,13 +170,13 @@ void QNodeViewEditor::load(QDataStream& stream)
 
         if (type == QNodeViewType_Block)
 		{
-            auto block = new QNodeViewBlock(nullptr);
+            QNodeViewBlock* block = new QNodeViewBlock(NULL);
             m_scene->addItem(block);
             block->load(stream, portMap);
         }
         else if (type == QNodeViewType_Connection)
 		{
-            auto connection = new QNodeViewConnection(nullptr);
+            QNodeViewConnection* connection = new QNodeViewConnection(NULL);
             m_scene->addItem(connection);
             connection->load(stream, portMap);
 		}
@@ -185,11 +185,11 @@ void QNodeViewEditor::load(QDataStream& stream)
 
 QGraphicsItem* QNodeViewEditor::itemAt(const QPointF& point)
 {
-    Q_ASSERT(m_scene != nullptr);
+    Q_ASSERT(m_scene);
 
-    const auto& items = m_scene->items(QRectF(point - QPointF(1, 1), QSize(3, 3)));
+    QList<QGraphicsItem*> items = m_scene->items(QRectF(point - QPointF(1, 1), QSize(3, 3)));
 
-    Q_FOREACH (auto item, items)
+    Q_FOREACH (QGraphicsItem* item, items)
     {
         // Filter out non-user scene items
         if (item->type() > QGraphicsItem::UserType)
@@ -197,5 +197,5 @@ QGraphicsItem* QNodeViewEditor::itemAt(const QPointF& point)
     }
 
     // No user scene items found at point
-    return nullptr;
+    return NULL;
 }

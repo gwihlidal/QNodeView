@@ -46,7 +46,7 @@ ExampleMainWindow::ExampleMainWindow(QWidget* parent)
 
     m_scene = new QGraphicsScene();
 
-    auto dock = new QDockWidget(tr("Nodes"), this);
+    QDockWidget* dock = new QDockWidget(tr("Nodes"), this);
     dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 
     m_view = new QGraphicsView(dock); // GW-TODO: Subclasses to expose custom painting\events
@@ -100,22 +100,22 @@ void ExampleMainWindow::loadFile()
 
 void ExampleMainWindow::createMenus()
 {
-    auto quitAction = new QAction(tr("&Quit"), this);
+    QAction* quitAction = new QAction(tr("&Quit"), this);
     quitAction->setShortcuts(QKeySequence::Quit);
     quitAction->setStatusTip(tr("Quit the example"));
     connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
 
-    auto loadAction = new QAction(tr("&Load"), this);
+    QAction* loadAction = new QAction(tr("&Load"), this);
     loadAction->setShortcuts(QKeySequence::Open);
     loadAction->setStatusTip(tr("Load node view from file"));
     connect(loadAction, SIGNAL(triggered()), this, SLOT(loadFile()));
 
-    auto saveAction = new QAction(tr("&Save"), this);
+    QAction* saveAction = new QAction(tr("&Save"), this);
     saveAction->setShortcuts(QKeySequence::Save);
     saveAction->setStatusTip(tr("Save node view to file"));
     connect(saveAction, SIGNAL(triggered()), this, SLOT(saveFile()));
 
-    auto addAction = new QAction(tr("&Add"), this);
+    QAction* addAction = new QAction(tr("&Add"), this);
     addAction->setStatusTip(tr("Add new block"));
     connect(addAction, SIGNAL(triggered()), this, SLOT(addBlock()));
 
@@ -129,7 +129,7 @@ void ExampleMainWindow::createMenus()
 
 void ExampleMainWindow::addBlockInternal(const QPointF& position)
 {
-    auto block = new QNodeViewBlock(nullptr);
+    QNodeViewBlock* block = new QNodeViewBlock(NULL);
     m_scene->addItem(block);
 
     static qint32 index = 1;

@@ -51,9 +51,13 @@ QNodeViewBlock::QNodeViewBlock(QGraphicsItem* parent)
     setGraphicsEffect(&m_dropShadow);
 }
 
+QNodeViewBlock::~QNodeViewBlock()
+{
+}
+
 QNodeViewPort* QNodeViewBlock::addPort(const QString& name, bool isOutput, qint32 flags, qint32 index)
 {
-    auto port = new QNodeViewPort(this);
+    QNodeViewPort* port = new QNodeViewPort(this);
 	port->setName(name);
 	port->setIsOutput(isOutput);
     port->setBlock(this);
@@ -75,12 +79,12 @@ QNodeViewPort* QNodeViewBlock::addPort(const QString& name, bool isOutput, qint3
 
     qint32 y = -(m_height >> 1) + m_verticalMargin + port->radius();
 
-    Q_FOREACH (auto childItem, childItems())
+    Q_FOREACH (QGraphicsItem* childItem, childItems())
     {
         if (childItem->type() != QNodeViewType_Port)
 			continue;
 
-        auto childPort = static_cast<QNodeViewPort*>(childItem);
+        QNodeViewPort* childPort = static_cast<QNodeViewPort*>(childItem);
 
         if (childPort->isOutput())
             childPort->setPos((m_width >> 1) + childPort->radius(), y);
@@ -121,7 +125,7 @@ void QNodeViewBlock::save(QDataStream& stream)
 
     qint32 count = 0;
 
-    Q_FOREACH (auto childItem, childItems())
+    Q_FOREACH (QGraphicsItem* childItem, childItems())
 	{
         if (childItem->type() != QNodeViewType_Port)
 			continue;
@@ -131,12 +135,12 @@ void QNodeViewBlock::save(QDataStream& stream)
 
     stream << count;
 
-    Q_FOREACH (auto childItem, childItems())
+    Q_FOREACH (QGraphicsItem* childItem, childItems())
 	{
         if (childItem->type() != QNodeViewType_Port)
 			continue;
 
-        auto port = static_cast<QNodeViewPort*>(childItem);
+        QNodeViewPort* port = static_cast<QNodeViewPort*>(childItem);
         stream << reinterpret_cast<quint64>(port);
         stream << port->portName();
         stream << port->isOutput();
@@ -192,10 +196,10 @@ void QNodeViewBlock::paint(QPainter* painter, const QStyleOptionGraphicsItem* op
 
 QNodeViewBlock* QNodeViewBlock::clone()
 {
-    auto block = new QNodeViewBlock(nullptr);
+    QNodeViewBlock* block = new QNodeViewBlock(NULL);
     this->scene()->addItem(block);
 
-    Q_FOREACH (auto childPort, childItems())
+    Q_FOREACH (QGraphicsItem* childPort, childItems())
 	{
         if (childPort->type() == QNodeViewType_Port)
 		{
@@ -215,7 +219,7 @@ QVector<QNodeViewPort*> QNodeViewBlock::ports()
 {
     QVector<QNodeViewPort*> result;
 
-    Q_FOREACH (auto childItem, childItems())
+    Q_FOREACH (QGraphicsItem* childItem, childItems())
 	{
         if (childItem->type() == QNodeViewType_Port)
             result.append(static_cast<QNodeViewPort*>(childItem));

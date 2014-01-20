@@ -27,8 +27,8 @@
 
 QNodeViewConnection::QNodeViewConnection(QGraphicsItem* parent)
 : QGraphicsPathItem(parent)
-, m_startPort(nullptr)
-, m_endPort(nullptr)
+, m_startPort(NULL)
+, m_endPort(NULL)
 {
     setPen(QPen(QColor(170, 170, 170), 2)); // GW-TODO: Expose to QStyle
 	setBrush(Qt::NoBrush);
@@ -37,10 +37,10 @@ QNodeViewConnection::QNodeViewConnection(QGraphicsItem* parent)
 
 QNodeViewConnection::~QNodeViewConnection()
 {
-    if (m_startPort != nullptr)
+    if (m_startPort)
         m_startPort->connections().remove(m_startPort->connections().indexOf(this));
 
-    if (m_endPort != nullptr)
+    if (m_endPort)
         m_endPort->connections().remove(m_endPort->connections().indexOf(this));
 }
 

@@ -30,7 +30,8 @@ class QNodeViewPort;
 class QNodeViewBlock : public QGraphicsPathItem
 {
 public:
-    QNodeViewBlock(QGraphicsItem* parent = nullptr);
+    QNodeViewBlock(QGraphicsItem* parent = NULL);
+    virtual ~QNodeViewBlock();
 
     QNodeViewPort* addPort(const QString& name, bool isOutput, qint32 flags = 0, qint32 index = 0);
 

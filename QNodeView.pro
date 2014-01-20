@@ -21,8 +21,6 @@
 TARGET = QNodeView
 TEMPLATE = app
 
-CONFIG += c++11
-
 QT += core gui widgets
 
 SOURCES +=  \

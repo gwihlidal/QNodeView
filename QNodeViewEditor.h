@@ -34,7 +34,7 @@ class QNodeViewEditor : public QObject
 	Q_OBJECT
 
 public:
-    explicit QNodeViewEditor(QObject* parent = nullptr);
+    explicit QNodeViewEditor(QObject* parent = NULL);
 
     void install(QGraphicsScene* scene);
     bool eventFilter(QObject* object, QEvent* event);

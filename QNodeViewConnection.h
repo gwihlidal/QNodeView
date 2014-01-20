@@ -29,8 +29,8 @@ class QNodeViewPort;
 class QNodeViewConnection : public QGraphicsPathItem
 {
 public:
-    QNodeViewConnection(QGraphicsItem* parent = nullptr);
-    ~QNodeViewConnection();
+    QNodeViewConnection(QGraphicsItem* parent = NULL);
+    virtual ~QNodeViewConnection();
 
     void setStartPosition(const QPointF& position);
     void setEndPosition(const QPointF& position);

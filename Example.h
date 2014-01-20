@@ -31,7 +31,7 @@ class ExampleMainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit ExampleMainWindow(QWidget* parent = nullptr);
+    explicit ExampleMainWindow(QWidget* parent = NULL);
     ~ExampleMainWindow();
 
 private slots:
