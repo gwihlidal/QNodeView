@@ -61,17 +61,6 @@ void QNodeViewConnectionSplit::updatePath()
     setPath(path);
 }
 
-void QNodeViewConnectionSplit::save(QDataStream& stream)
-{
-    Q_UNUSED(stream);
-}
-
-void QNodeViewConnectionSplit::load(QDataStream& stream, const QMap<quint64, QNodeViewPort*>& portMap)
-{
-    Q_UNUSED(stream);
-    Q_UNUSED(portMap);
-}
-
 void QNodeViewConnectionSplit::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     Q_UNUSED(widget);
@@ -206,6 +195,15 @@ void QNodeViewConnection::save(QDataStream& stream)
 {
     stream << reinterpret_cast<quint64>(m_startPort);
     stream << reinterpret_cast<quint64>(m_endPort);
+
+    const qint32 splitCount = m_splits.size();
+    stream << splitCount;
+
+    Q_FOREACH (QNodeViewConnectionSplit* split, m_splits)
+    {
+        const QPointF splitPosition = split->splitPosition();
+        stream << splitPosition;
+    }
 }
 
 void QNodeViewConnection::load(QDataStream& stream, const QMap<quint64, QNodeViewPort*>& portMap)
@@ -218,6 +216,20 @@ void QNodeViewConnection::load(QDataStream& stream, const QMap<quint64, QNodeVie
     setStartPort(portMap[startPortIndex]);
     setEndPort(portMap[endPortIndex]);
 
+    qint32 splitCount;
+    stream >> splitCount;
+
+    for (qint32 splitIndex = 0; splitIndex < splitCount; splitIndex++)
+    {
+        QPointF splitPosition;
+        stream >> splitPosition;
+        QNodeViewConnectionSplit* split = new QNodeViewConnectionSplit(this);
+        scene()->addItem(split);
+        split->setSplitPosition(splitPosition);
+        m_splits.append(split);
+    }
+
     updatePosition();
 	updatePath();
+    updateSplits();
 }

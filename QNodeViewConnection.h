@@ -41,10 +41,6 @@ public:
     QNodeViewConnection* connection() const { return m_connection; }
 
 public:
-    void save(QDataStream& stream);
-    void load(QDataStream& stream, const QMap<quint64, QNodeViewPort*>& portMap);
-
-public:
     // QGraphicsItem
     int type() const { return QNodeViewType_ConnectionSplit; }
 
