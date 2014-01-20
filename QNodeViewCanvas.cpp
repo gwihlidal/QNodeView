@@ -45,6 +45,7 @@ void QNodeViewCanvas::drawBackground(QPainter* painter, const QRectF& rect)
 
     // GW-TODO: Expose this to QStyle
     QPen linePen(QColor(80, 80, 80), 1, Qt::DotLine, Qt::FlatCap, Qt::RoundJoin);
+    linePen.setCosmetic(true); // Performance optimization
     painter->setPen(linePen);
 
     const qreal left = qint32(rect.left()) - (qint32(rect.left()) % gridInterval);

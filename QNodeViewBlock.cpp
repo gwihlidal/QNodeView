@@ -187,8 +187,10 @@ void QNodeViewBlock::load(QDataStream& stream, QMap<quint64, QNodeViewPort*>& po
 
 void QNodeViewBlock::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    Q_UNUSED(option);
     Q_UNUSED(widget);
+
+    // Only paint dirty regions for increased performance
+    painter->setClipRect(option->exposedRect);
 
     if (isSelected())
     {
