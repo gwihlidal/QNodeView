@@ -30,7 +30,7 @@
 
 QNodeViewBlock::QNodeViewBlock(QGraphicsItem* parent)
 : QGraphicsPathItem(parent)
-, m_width(20)
+, m_width(100)
 , m_height(5)
 , m_horizontalMargin(20)
 , m_verticalMargin(5)
