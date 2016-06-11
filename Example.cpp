@@ -34,6 +34,7 @@ int main(int argc, char* argv[])
 {
     QApplication application(argc, argv);
     ExampleMainWindow window;
+    window.resize(640, 480);
     window.show();
     return application.exec();
 }
@@ -46,13 +47,8 @@ ExampleMainWindow::ExampleMainWindow(QWidget* parent)
     createMenus();
 
     m_scene = new QGraphicsScene();
-
-    QDockWidget* dock = new QDockWidget(tr("Nodes"), this);
-    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-
-    m_view = new QNodeViewCanvas(m_scene, dock);
-    dock->setWidget(m_view);
-    addDockWidget(Qt::LeftDockWidgetArea, dock);
+    m_view = new QNodeViewCanvas(m_scene, this);
+    setCentralWidget(m_view);
 
     m_editor = new QNodeViewEditor(this);
     m_editor->install(m_scene);

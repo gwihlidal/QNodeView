@@ -22,6 +22,7 @@
 #pragma once
 
 #include <QGraphicsView>
+#include <QtWidgets>
 
 class QNodeViewCanvas : public QGraphicsView
 {
@@ -31,4 +32,7 @@ public:
 
     void contextMenuEvent(QContextMenuEvent* event);
     void drawBackground(QPainter* painter, const QRectF& rect);
+
+protected:
+    virtual void wheelEvent(QWheelEvent* event);
 };

@@ -63,3 +63,15 @@ void QNodeViewCanvas::drawBackground(QPainter* painter, const QRectF& rect)
     painter->drawLines(linesX.data(), linesX.size());
     painter->drawLines(linesY.data(), linesY.size());
 }
+
+void QNodeViewCanvas::wheelEvent(QWheelEvent *event)
+{
+    this->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+    double scaleFactor = 1.15;
+
+    if(event->delta() > 0) {
+        this-> scale(scaleFactor, scaleFactor);
+    } else {
+        this->scale(1.0 / scaleFactor, 1.0 / scaleFactor);
+    }
+}
